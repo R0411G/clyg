@@ -41,3 +41,39 @@ https://www.52pojie.cn/thread-803607-1-1.html
 (https://www.52pojie.cn/thread-676272-1-1.html)
 
 (https://blog.csdn.net/groundhappy/article/details/80236872)
+
+
+adb logcat | find  "com.floral.life" >d:/floral.txt
+adb logcat >d:/floral.txt
+
+把自己的可执行文件push到adb下system/bin/下
+
+在没进入adb shell之前输入下面命令：
+
+adb remount
+adb push su /system/bin/
+adb shell
+cd  /system/bin/
+chmod 2777 su
+su 
+
+1、下载tcpdump
+http://pan.baidu.com/s/1c0vkU2k
+
+2、通过adb命令上传到手机里
+adb push tcpdump /system/bin
+
+3、adb shell tcpdump -p -vv -s 0 -w /sdcard/capture.pcap
+	
+#tcpdump 用法：
+ 
+tcpdump -i any -p -s 0 -w /sdcard/capture.pcap
+命令参数：
+# "-i any": listen on any network interface
+# "-p": disable promiscuous mode (doesn't work anyway)
+# "-s 0": capture the entire packet
+# "-w": write packets to a file (rather than printing to stdout)
+# ... do whatever you want to capture, then ^C to stop it …
+
+4、运行要截包的app，完成对应操作后，CTRL + C 终止，然后通过下面命令取出命令：
+adb pull /sdcard/capture.pcap
