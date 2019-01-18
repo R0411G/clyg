@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
-import com.kingdown88.wb.BuildConfig;
+import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import de.robv.android.xposed.XposedBridge;
@@ -16,19 +16,37 @@ import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
-public class MethodHooker {
+public class HookAppAllMethod implements IXposedHookLoadPackage {
 
-  private static final String FILTER_PKGNAME = "" + BuildConfig.APPLICATION_ID;
+  @Override public void handleLoadPackage(final LoadPackageParam loadPackageParam) {
+    hookMethod(loadPackageParam);
+  }
+
   public static Set<String> methodSignSet = Collections.synchronizedSet(new HashSet<String>());
   public static Set<String> callMethodSignSet = Collections.synchronizedSet(new HashSet<String>());
 
+  private static void log(Object str) {
+    SimpleDateFormat df = new SimpleDateFormat("yyyyMMDD HH:mm:ss", Locale.CHINA);
+    String text = "[" + df.format(new Date()) + "]:  " + str.toString();
+    System.out.println(text);
+    XposedBridge.log(text);
+  }
+
+  private static final String FILTER_PKGNAME = "com.fzisen.app51zxw";
+
   public static void hookMethod(LoadPackageParam loadPackageParam) {
     String pkgname = loadPackageParam.packageName;
+
+    log("pkgname-->" + pkgname);
+
     if (FILTER_PKGNAME.equals(pkgname)) {
       //这里是为了解决app多dex进行hook的问题，Xposed默认是hook主dex
       XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class,
@@ -91,7 +109,6 @@ public class MethodHooker {
         return file.getAbsolutePath();
       }
     } catch (Exception e) {
-      e.printStackTrace();
     }
     return null;
   }
@@ -132,10 +149,10 @@ public class MethodHooker {
             String methodSign = getMethodSign(param);
             if (!TextUtils.isEmpty(methodSign) && !callMethodSignSet.contains(methodSign)) {
               //这里因为会打印日志，所以会出现app的ANR情况
-              XposedBridge.log("Loaded app call-->" + methodSign);
+              log("call-->" + methodSign);
               //这里还可以把方法的参数值打印出来，不过如果应用过大，这里会出现ANR
               for (int i = 0; i < param.args.length; i++) {
-                XposedBridge.log("Loaded app ==>arg" + i + ":" + param.args[i]);
+                log("==>arg" + i + ":" + param.args[i]);
               }
               callMethodSignSet.add(methodSign);
             }
@@ -146,13 +163,12 @@ public class MethodHooker {
         //开始进行Hook操作，注意这里有一个问题，如果一个Hook的方法数过多，会出现OOM的错误，这个是Xposed工具的问题
         if (!TextUtils.isEmpty(signStr) && !methodSignSet.contains(signStr)) {
           //这里因为会打印日志，所以会出现app的ANR情况
-          XposedBridge.log("Loaded app all-->" + signStr);
+          log("all-->" + signStr);
           methodSignSet.add(signStr);
           XposedHelpers.findAndHookMethod(className, classLoader, methodName, param);
         }
       }
     } catch (Exception e) {
-      e.printStackTrace();
     }
   }
 
@@ -185,7 +201,6 @@ public class MethodHooker {
       methodSign.append(")");
       return methodSign.toString();
     } catch (Exception e) {
-      e.printStackTrace();
       return null;
     }
   }
@@ -216,7 +231,6 @@ public class MethodHooker {
       methodSign.append(")");
       return methodSign.toString();
     } catch (Exception e) {
-      e.printStackTrace();
       return null;
     }
   }
@@ -259,7 +273,7 @@ public class MethodHooker {
    * 跨进程读取数据，会显示失败的，这个方法是无效的，因为methodSignSet数据可能跨进程读取失败
    */
   @SuppressLint("SdCardPath") public static boolean dumpAllMethodInfo() {
-    XposedBridge.log("Loaded app all method size:" + methodSignSet.size());
+    log("all method size:" + methodSignSet.size());
     if (methodSignSet.size() == 0) {
       return false;
     }
@@ -274,7 +288,7 @@ public class MethodHooker {
       }
       return true;
     } catch (Exception e) {
-      e.printStackTrace();
+      log("dump all method error:" + e.getMessage());
       return false;
     } finally {
       try {
@@ -285,7 +299,6 @@ public class MethodHooker {
           bw.close();
         }
       } catch (Exception e) {
-        e.printStackTrace();
       }
     }
   }
@@ -294,7 +307,7 @@ public class MethodHooker {
    * 跨进程读取数据失败
    */
   @SuppressLint("SdCardPath") public static boolean dumpCallMethodInfo() {
-    XposedBridge.log("Loaded app call method size:" + callMethodSignSet.size());
+    log("call method size:" + callMethodSignSet.size());
     if (callMethodSignSet.size() == 0) {
       return false;
     }
@@ -309,7 +322,7 @@ public class MethodHooker {
       }
       return true;
     } catch (Exception e) {
-      e.printStackTrace();
+      log("dump call method error:" + e.getMessage());
       return false;
     } finally {
       try {
@@ -320,7 +333,6 @@ public class MethodHooker {
           bw.close();
         }
       } catch (Exception e) {
-        e.printStackTrace();
       }
     }
   }
