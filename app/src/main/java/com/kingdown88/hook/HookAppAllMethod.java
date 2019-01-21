@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import java.io.BufferedWriter;
@@ -16,13 +15,12 @@ import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
+
+import static com.kingdown88.hook.HookLog.log;
 
 public class HookAppAllMethod implements IXposedHookLoadPackage {
 
@@ -33,20 +31,11 @@ public class HookAppAllMethod implements IXposedHookLoadPackage {
   public static Set<String> methodSignSet = Collections.synchronizedSet(new HashSet<String>());
   public static Set<String> callMethodSignSet = Collections.synchronizedSet(new HashSet<String>());
 
-  private static void log(Object str) {
-    SimpleDateFormat df = new SimpleDateFormat("yyyyMMDD HH:mm:ss", Locale.CHINA);
-    String text = "[" + df.format(new Date()) + "]:  " + str.toString();
-    System.out.println(text);
-    XposedBridge.log(text);
-  }
-
-  private static final String FILTER_PKGNAME = "com.fzisen.app51zxw";
+  private static final String FILTER_PKGNAME = "com.wuba";
 
   public static void hookMethod(LoadPackageParam loadPackageParam) {
     String pkgname = loadPackageParam.packageName;
-
     log("pkgname-->" + pkgname);
-
     if (FILTER_PKGNAME.equals(pkgname)) {
       //这里是为了解决app多dex进行hook的问题，Xposed默认是hook主dex
       XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class,

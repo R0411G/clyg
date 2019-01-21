@@ -4,12 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+
+import static com.kingdown88.hook.HookLog.log;
 
 public class wb implements IXposedHookLoadPackage {
 
@@ -33,7 +31,9 @@ public class wb implements IXposedHookLoadPackage {
     String sTemp;
     for (int i = 0; i < bytes.length; i++) {
       sTemp = Integer.toHexString(0xFF & bytes[i]);
-      if (sTemp.length() < 2) sb.append(0);
+      if (sTemp.length() < 2) {
+        sb.append(0);
+      }
       sb.append(sTemp.toUpperCase());
     }
     return sb.toString();
@@ -52,54 +52,28 @@ public class wb implements IXposedHookLoadPackage {
     return bArr;
   }
 
-  @Override public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam)
-      throws Throwable {
-    if ("com.wuba".equals(loadPackageParam.packageName)) {
+  private static final String FILTER_PKGNAME = "com.wuba";
 
+  @Override public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+    String pkgname = loadPackageParam.packageName;
+    log("pkgname-->" + pkgname);
+    if (FILTER_PKGNAME.equals(pkgname)) {
       XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class,
           new XC_MethodHook() {
             @Override protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-              log("findAndHookMethod``````````````````````````````````````````````````````````");
-
-              //com.wuba.commons.utils.StringUtils.getStr(str,len)
-
               Context context = (Context) param.args[0];
               ClassLoader classLoader = context.getClassLoader();
 
               Class<?> cStringUtils =
                   XposedHelpers.findClass("com.wuba.commons.utils.StringUtils", classLoader);
 
-              String SSS = (String) XposedHelpers.callMethod(cStringUtils.newInstance(), "getStr",
-                  "B44FF9F0C62B3527CA792B3642F92E0C");
-              log("callMethod =" + SSS);//15011257583
-
-              //Method method1 = cStringUtils.getDeclaredMethod("getStr", String.class);
-              //method1.setAccessible(true);
-              //SSS = (String) method1.invoke(cStringUtils.newInstance(),
-              //    "B44FF9F0C62B3527CA792B3642F92E0C");
-              //log("getDeclaredMethod =" + SSS);//15011257583
-
-
-
-
-
-
-
-
-              Class<?> loadClass = classLoader.loadClass("com.wuba.commons.utils.StringUtils");
-              //Method[] methods = loadClass.getMethods();
-              //for (Method m : methods) {
-              //  log(m.getName());
-              //}
+              Class<?> StringUtils = classLoader.loadClass("com.wuba.commons.utils.StringUtils");
               final String methodName = "getStr";
-              //注意参数
-              XposedHelpers.findAndHookMethod(loadClass, methodName, String.class,
+              XposedHelpers.findAndHookMethod(StringUtils, methodName, String.class,
                   new XC_MethodHook() {
                     @Override protected void beforeHookedMethod(MethodHookParam param)
                         throws Throwable {
                       super.beforeHookedMethod(param);
-                      log("beforeHookedMethod --------------------------------------" + methodName);
                     }
 
                     @Override protected void afterHookedMethod(MethodHookParam param)
@@ -107,18 +81,14 @@ public class wb implements IXposedHookLoadPackage {
                       super.afterHookedMethod(param);
                       log("afterHookedMethod args  =" + param.args[0]);
                       log("afterHookedMethod result=" + param.getResult());
-                      log("afterHookedMethod 0------------------------------------" + methodName);
-
-                      XposedHelpers.callMethod(param.thisObject, "getStr", param.args[0]);
                     }
                   });
 
-              XposedHelpers.findAndHookMethod(loadClass, methodName, String.class, int.class,
+              XposedHelpers.findAndHookMethod(StringUtils, methodName, String.class, int.class,
                   new XC_MethodHook() {
                     @Override protected void beforeHookedMethod(MethodHookParam param)
                         throws Throwable {
                       super.beforeHookedMethod(param);
-                      log("beforeHookedMethod --------------------------------------" + methodName);
                     }
 
                     @Override protected void afterHookedMethod(MethodHookParam param)
@@ -127,18 +97,15 @@ public class wb implements IXposedHookLoadPackage {
                       log("afterHookedMethod args  =" + param.args[0]);
                       log("afterHookedMethod args  =" + param.args[1]);
                       log("afterHookedMethod result=" + param.getResult());
-                      log("afterHookedMethod --------------------------------------" + methodName);
                     }
                   });
 
               //getSecretPhone
 
-              String phone = null;
-
+              //String phone = null;
               //Class<?> Exec = classLoader.loadClass("com.wuba.aes.Exec");
               //Method method = XposedHelpers.findMethodBestMatch(Exec, "encryptPhoneData", byte[].class,
               //    int.class);
-              //
               //String[] jiamis = { "13581830665", "13718031586" };
               //for (int i = 0; i < jiamis.length; i++) {
               //  String str = jiamis[i];
@@ -156,6 +123,7 @@ public class wb implements IXposedHookLoadPackage {
               //}
 
               ////解密
+              //String phone = null;
               //Class<?> AESUtil = classLoader.loadClass("com.wuba.aes.AESUtil");
               //String[] jiemis =
               //    { "2903E3649F622D51A7E96F8816FD58D2", "BADD6950287559EEC37D6E0D4E9B76E7" };
@@ -183,12 +151,5 @@ public class wb implements IXposedHookLoadPackage {
             }
           });
     }
-  }
-
-  private void log(Object str) {
-    SimpleDateFormat df = new SimpleDateFormat("yyyyMMDD HH:mm:ss", Locale.CHINA);
-    String text = "[" + df.format(new Date()) + "]:  " + str.toString();
-    System.out.println(text);
-    XposedBridge.log(text);
   }
 }
