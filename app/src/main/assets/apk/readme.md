@@ -1,4 +1,5 @@
-
+HOOK
+====================
 安装apk后hook相关应用导出相应的dex文件利用jd-gui查看源码
 
 https://vxposed.com/
@@ -65,15 +66,15 @@ adb push tcpdump /system/bin
 
 3、adb shell tcpdump -p -vv -s 0 -w /sdcard/capture.pcap
 	
-#tcpdump 用法：
+###tcpdump
  
 tcpdump -i any -p -s 0 -w /sdcard/capture.pcap
 命令参数：
-# "-i any": listen on any network interface
-# "-p": disable promiscuous mode (doesn't work anyway)
-# "-s 0": capture the entire packet
-# "-w": write packets to a file (rather than printing to stdout)
-# ... do whatever you want to capture, then ^C to stop it …
+ "-i any": listen on any network interface
+ "-p": disable promiscuous mode (doesn't work anyway)
+ "-s 0": capture the entire packet
+ "-w": write packets to a file (rather than printing to stdout)
+ ... do whatever you want to capture, then ^C to stop it …
 
 4、运行要截包的app，完成对应操作后，CTRL + C 终止，然后通过下面命令取出命令：
 adb pull /sdcard/capture.pcap
