@@ -22,3 +22,26 @@
 
 ### 使用工具AndroidKiller
         链接：https://pan.baidu.com/s/1EF5YhDLH2IOzzX9ktaTrew 提取码：m3qh
+
+
+1.Zjdroid
+github:https://github.com/halfkiss/ZjDroid
+原理分析:http://blog.csdn.net/jiangwei0910410003/article/details/52840602
+
+2. DexExtractor
+github:https://github.com/bunnyblue/DexExtractor
+原理分析:http://blog.csdn.net/qq1084283172/article/details/53557894
+
+3. dexdump
+github:https://github.com/smartdone/dexdump
+基于Xposed插件
+
+4.drizzleDumper
+github:https://github.com/DrizzleRisk/drizzleDumper
+原理分析:http://blog.csdn.net/qq1084283172/article/details/53563.1622
+
+5.TUnpacker(Python)
+github:https://github.com/DrizzleRisk/TUnpacker
+
+6.BUnpacker (Python)
+github:https://github.com/DrizzleRisk/BUnpacker
