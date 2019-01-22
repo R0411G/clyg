@@ -38,7 +38,7 @@ github:https://github.com/smartdone/dexdump
 
 4.drizzleDumper
 github:https://github.com/DrizzleRisk/drizzleDumper
-原理分析:http://blog.csdn.net/qq1084283172/article/details/53563.1622
+原理分析:http://blog.csdn.net/qq1084283172/article/details/535631622
 
 5.TUnpacker(Python)
 github:https://github.com/DrizzleRisk/TUnpacker
