@@ -41,7 +41,7 @@ public class FDex2MainHook implements IXposedHookLoadPackage {
 
     XposedHelpers.findAndHookMethod(str, lpparam.classLoader, str2, String.class, Boolean.TYPE,
         new XC_MethodHook() {
-          protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+          @Override protected void afterHookedMethod(MethodHookParam param) throws Throwable {
             super.afterHookedMethod(param);
             Class cls = (Class) param.getResult();
             if (cls == null) {
