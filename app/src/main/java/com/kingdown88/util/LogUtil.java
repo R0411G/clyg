@@ -1,4 +1,4 @@
-package com.kingdown88.hook;
+package com.kingdown88.util;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -16,7 +16,7 @@ import java.util.Locale;
 /**
  * Created by wsig on 2019-01-21.
  */
-public class HookLog {
+public class LogUtil {
 
   public static void log(Object str) {
     SimpleDateFormat df = new SimpleDateFormat("yyyyMMDD HH:mm:ss", Locale.CHINA);

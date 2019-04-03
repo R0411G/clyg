@@ -20,9 +20,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.kingdown88.hook.HookLog.log;
+import static com.kingdown88.util.LogUtil.log;
 
-public class HookAppAllMethod implements IXposedHookLoadPackage {
+public class HookAllMethod implements IXposedHookLoadPackage {
 
   private static final String FILTER_PKGNAME = "com.wuba";
   public static Set<String> methodSignSet = Collections.synchronizedSet(new HashSet<String>());

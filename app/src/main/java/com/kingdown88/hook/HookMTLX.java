@@ -9,8 +9,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import static com.kingdown88.hook.HookLog.getMethodSign;
-import static com.kingdown88.hook.HookLog.log;
+import static com.kingdown88.util.LogUtil.getMethodSign;
+import static com.kingdown88.util.LogUtil.log;
 
 public class HookMTLX implements IXposedHookLoadPackage {
 

@@ -24,7 +24,7 @@ import java.util.List;
  * 例如我们需要implements IXposedHookZygoteInit,并将自己的一个服务注册为系统服务，这种就必须重启了
  */
 
-public class HookLoader2 implements IXposedHookLoadPackage {
+public class HookNotStart implements IXposedHookLoadPackage {
   /**
    * 实际hook包名
    */
@@ -32,7 +32,7 @@ public class HookLoader2 implements IXposedHookLoadPackage {
   /**
    * 实际hook逻辑处理类
    */
-  private final String handleHookClass = HookLoader2.class.getName();
+  private final String handleHookClass = HookNotStart.class.getName();
   /**
    * 实际hook逻辑处理类的入口方法
    */

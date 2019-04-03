@@ -1,6 +1,5 @@
 package com.kingdown88.util;
 
-import com.kingdown88.hook.HttpRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 

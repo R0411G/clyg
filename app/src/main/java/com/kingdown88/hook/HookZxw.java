@@ -7,9 +7,9 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static com.kingdown88.hook.HookLog.log;
+import static com.kingdown88.util.LogUtil.log;
 
-public class comfzisenapp51zxw implements IXposedHookLoadPackage {
+public class HookZxw implements IXposedHookLoadPackage {
 
   private static final String FILTER_PKGNAME = "com.fzisen.app51zxw";
 

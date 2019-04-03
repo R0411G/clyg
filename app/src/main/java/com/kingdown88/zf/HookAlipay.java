@@ -1,4 +1,4 @@
-package com.kingdown88.hook;
+package com.kingdown88.zf;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
@@ -9,11 +9,11 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 /**
  * Created by wsig on 2019-04-03.
  */
-public class AlipayHook implements IXposedHookLoadPackage {
+public class HookAlipay implements IXposedHookLoadPackage {
   @Override public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam)
       throws Throwable {
     if (lpparam.packageName.equals("com.eg.android.AlipayGphone")) {
-      XposedBridge.log("AlipayHook load alipay");
+      XposedBridge.log("HookAlipay load alipay");
       ClassLoader classLoader = lpparam.classLoader;
       Class<?> aClass =
           classLoader.loadClass("com.alipay.android.render.engine.viewbiz.AssetsHeaderV2View");
@@ -26,7 +26,7 @@ public class AlipayHook implements IXposedHookLoadPackage {
                 super.beforeHookedMethod(param);
                 Object arg = param.args[0];
                 try {
-                  XposedBridge.log("AlipayHook   " + arg.getClass()
+                  XposedBridge.log("HookAlipay   " + arg.getClass()
                       .getField("latestTotalView")
                       .get(arg)
                       .toString());

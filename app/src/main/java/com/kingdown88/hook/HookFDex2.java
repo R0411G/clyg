@@ -10,12 +10,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Method;
 
-import static com.kingdown88.hook.HookLog.log;
+import static com.kingdown88.util.LogUtil.log;
 
 /**
  * FDex2核心代码MainHook
  */
-public class FDex2MainHook implements IXposedHookLoadPackage {
+public class HookFDex2 implements IXposedHookLoadPackage {
 
   XSharedPreferences xsp;
   Class Dex;
