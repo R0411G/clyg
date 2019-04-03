@@ -1,4 +1,4 @@
-package com.kingdown88.wb;
+package com.kingdown88.util;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
