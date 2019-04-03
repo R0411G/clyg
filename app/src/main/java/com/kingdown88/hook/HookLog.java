@@ -50,7 +50,7 @@ public class HookLog {
     try {
       InputStream fosfrom = new FileInputStream(fromFile);
       OutputStream fosto = new FileOutputStream(toFile);
-      byte[] bt= new byte[1024];
+      byte[] bt = new byte[1024];
       int c;
       while ((c = fosfrom.read(bt)) > 0) {
         fosto.write(bt, 0, c);
@@ -90,7 +90,7 @@ public class HookLog {
       methodSign.append(")");
       return methodSign.toString();
     } catch (Exception e) {
-    return null;
+      return null;
     }
   }
 

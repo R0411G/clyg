@@ -11,6 +11,8 @@ import static com.kingdown88.hook.HookLog.log;
 
 public class wb implements IXposedHookLoadPackage {
 
+  private static final String FILTER_PKGNAME = "com.wuba";
+
   public static String bytesToHexString(byte[] bArr) {
     StringBuilder stringBuilder = new StringBuilder("");
     if (bArr == null || bArr.length <= 0) {
@@ -51,8 +53,6 @@ public class wb implements IXposedHookLoadPackage {
     }
     return bArr;
   }
-
-  private static final String FILTER_PKGNAME = "com.wuba";
 
   @Override public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
     String pkgname = loadPackageParam.packageName;

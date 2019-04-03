@@ -25,6 +25,7 @@ public class BackupApp {
       + "ApkBackup"
       + File.separator;
   File mBaseFile = new File(NEW_FILE_BASE);
+  StringBuilder mInfoStr = new StringBuilder();
 
   public void backupApp(String path, String outname) throws IOException {
     File in = new File(path);
@@ -75,8 +76,6 @@ public class BackupApp {
       }
     }
   }
-
-  StringBuilder mInfoStr = new StringBuilder();
 
   public void updateView(final TextView mInfo, String info) {
     mInfoStr.append(info + "\n");

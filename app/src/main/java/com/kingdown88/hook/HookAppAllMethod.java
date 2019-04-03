@@ -24,14 +24,9 @@ import static com.kingdown88.hook.HookLog.log;
 
 public class HookAppAllMethod implements IXposedHookLoadPackage {
 
-  @Override public void handleLoadPackage(final LoadPackageParam loadPackageParam) {
-    hookMethod(loadPackageParam);
-  }
-
+  private static final String FILTER_PKGNAME = "com.wuba";
   public static Set<String> methodSignSet = Collections.synchronizedSet(new HashSet<String>());
   public static Set<String> callMethodSignSet = Collections.synchronizedSet(new HashSet<String>());
-
-  private static final String FILTER_PKGNAME = "com.wuba";
 
   public static void hookMethod(LoadPackageParam loadPackageParam) {
     String pkgname = loadPackageParam.packageName;
@@ -324,5 +319,9 @@ public class HookAppAllMethod implements IXposedHookLoadPackage {
       } catch (Exception e) {
       }
     }
+  }
+
+  @Override public void handleLoadPackage(final LoadPackageParam loadPackageParam) {
+    hookMethod(loadPackageParam);
   }
 }
