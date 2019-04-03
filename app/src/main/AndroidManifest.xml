@@ -27,8 +27,9 @@
         android:name="xposedminversion"
         android:value="54"/>
 
+    <activity android:name=".BackupAppActivity"/>
     <activity
-        android:name="com.kingdown88.wb.MainActivity"
+        android:name=".MainActivity"
         android:label="@string/app_name">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
