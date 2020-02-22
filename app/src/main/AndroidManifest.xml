@@ -29,7 +29,7 @@
     <!-- XposedBridgeApi的最低版本号 -->
     <meta-data
         android:name="xposedminversion"
-        android:value="54"/>
+        android:value="82"/>
 
     <activity android:name=".BackupAppActivity"/>
 
